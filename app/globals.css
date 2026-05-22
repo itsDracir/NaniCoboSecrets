@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+/* Brand palette — soft luxury / beauty wellness.
+   Tokens become Tailwind color utilities: bg-cream, text-ink, from-gold, etc. */
+@theme {
+  --color-cream: #f6f1ea;
+  --color-sand: #ece0d2;
+  --color-nude: #e1cbb7;
+  --color-rose: #e7d3ce;
+  --color-gold: #be9e63;
+  --color-espresso: #5a4636;
+  --color-ink: #1e1813;
+
+  --font-sans: var(--font-body);
+  --font-serif: var(--font-display);
+}
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  background-color: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-gold);
+  color: var(--color-cream);
+}
+
+/* Liquid glass shimmer keyframe — used by LiquidGlassButton and nav elements */
+@keyframes lg-shimmer {
+  0%   { transform: translateX(-100%) skewX(-15deg); }
+  100% { transform: translateX(200%) skewX(-15deg); }
+}
+
+/* Respect users who prefer reduced motion — disable non-essential transitions. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
