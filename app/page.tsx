@@ -1,10 +1,10 @@
-import HeroHydra from "@/components/hero/HeroHydra";
+import HeroSection from "@/components/home/HeroSection";
 
 export default function Home() {
   return (
     <main className="flex-1">
-      <HeroHydra />
-      {/* Próximas secciones (beneficios, ritual, testimonios, etc.) van aquí. */}
+      <HeroSection />
+      {/* Próximas secciones (showcase, ritual, beneficios, etc.) van aquí. */}
     </main>
   );
 }

@@ -1,0 +1,298 @@
+Ya tenemos implementada la primera fase de la nueva home basada en assets responsive de producto, fondo `soft-beige-gradient.webp`, textura `salon-texture.webp` y HeroSection estático.
+
+Ahora quiero avanzar con la siguiente fase: añadir animación de scroll con GSAP / ScrollTrigger.
+
+Importante: seguimos manteniendo descartado el antiguo enfoque basado en vídeo. No quiero recuperar el vídeo ni la lógica de vídeo. Solo quiero rescatar, si existen, los elementos visuales o estructurales que aparecían al final del antiguo ScrollTrigger y que puedan seguir teniendo sentido dentro de esta nueva versión basada en imágenes.
+
+## Objetivo de esta fase
+
+Implementar una animación de scroll natural donde los productos se desplacen desde la derecha hacia el centro de la composición de forma elegante, suave y controlada.
+
+La sensación debe ser:
+
+* movimiento fluido
+* transición natural
+* producto entrando en protagonismo
+* estética premium
+* sin brusquedad
+* sin scroll-jacking agresivo
+* sin efectos pesados
+* sin depender de vídeo
+
+## Tareas principales
+
+Analiza primero la versión actual implementada y también revisa el código anterior del ScrollTrigger si sigue existiendo en el proyecto.
+
+Quiero que identifiques:
+
+1. Qué parte de la nueva home ya está correctamente implementada.
+2. Qué código antiguo de ScrollTrigger existe todavía.
+3. Qué elementos aparecían al final del antiguo ScrollTrigger.
+4. Qué elementos merece la pena rescatar.
+5. Qué elementos deben eliminarse porque dependían demasiado del vídeo.
+6. Cómo integrar esos elementos en la nueva arquitectura basada en assets WebP responsive.
+
+No implementes directamente sin revisar primero la estructura actual.
+
+## Movimiento principal de productos
+
+Quiero que el producto o productos principales se muevan desde la derecha hacia el centro durante el scroll.
+
+La animación debe ser aproximadamente así:
+
+Estado inicial:
+
+* producto ubicado visualmente hacia la derecha
+* producto ligeramente desplazado en X positivo
+* puede tener una escala ligeramente menor
+* opacidad completa o casi completa
+* sombra acompañando al producto
+
+Durante el scroll:
+
+* producto se desplaza progresivamente hacia el centro
+* el movimiento debe sentirse natural, no mecánico
+* puede tener una ligera variación en Y para sensación flotante
+* la sombra debe acompañar con un movimiento más sutil
+* si hay dos productos, deben tener velocidades o offsets ligeramente distintos para crear profundidad
+
+Estado final:
+
+* producto centrado o casi centrado
+* producto con protagonismo claro
+* composición estable
+* elementos finales rescatados del antiguo ScrollTrigger visibles o integrados debajo/alrededor según convenga
+
+## Reglas técnicas para GSAP
+
+Usa GSAP de forma limpia.
+
+Si el proyecto está en React, usar:
+
+* `useRef`
+* `useEffect` o equivalente según stack
+* `gsap.context()` para limitar scopes
+* cleanup correcto con `ctx.revert()`
+* `ScrollTrigger` registrado una sola vez donde corresponda
+
+Ejemplo conceptual, adaptar al proyecto real:
+
+```js
+gsap.registerPlugin(ScrollTrigger);
+
+const ctx = gsap.context(() => {
+  gsap.timeline({
+    scrollTrigger: {
+      trigger: sectionRef.current,
+      start: "top top",
+      end: "bottom top",
+      scrub: 1,
+      pin: false,
+      invalidateOnRefresh: true,
+    },
+  })
+  .fromTo(productRef.current,
+    {
+      xPercent: 35,
+      yPercent: 0,
+      scale: 0.96,
+    },
+    {
+      xPercent: 0,
+      yPercent: -4,
+      scale: 1,
+      ease: "none",
+    }
+  );
+}, sectionRef);
+
+return () => ctx.revert();
+```
+
+No copies este código literalmente si no encaja. Úsalo como intención técnica.
+
+## ScrollTrigger
+
+Quiero una animación elegante, pero no una sección excesivamente compleja.
+
+Evitar por ahora:
+
+* pinned sections largas
+* scroll-jacking agresivo
+* timelines demasiado grandes
+* animaciones dependientes de muchos cálculos manuales
+* mezclar demasiadas responsabilidades en un solo componente
+
+Aceptar:
+
+* `scrub` suave
+* movimiento horizontal controlado
+* parallax sutil
+* escala leve
+* entrada progresiva de elementos finales
+* sombras o texturas moviéndose con menor intensidad
+
+Config recomendada inicial:
+
+```js
+scrollTrigger: {
+  trigger: sectionRef.current,
+  start: "top center",
+  end: "bottom center",
+  scrub: 1,
+  invalidateOnRefresh: true,
+}
+```
+
+Ajusta `start`, `end` y `scrub` según el layout real.
+
+## Elementos a rescatar del antiguo ScrollTrigger
+
+Quiero que revises la versión anterior y busques los elementos que aparecían al final del ScrollTrigger.
+
+Pueden ser, por ejemplo:
+
+* textos finales
+* bloques de producto
+* CTA
+* claims visuales
+* elementos decorativos
+* layout final
+* sección de transición
+* composición final que ya funcionaba
+
+Rescata únicamente lo que siga teniendo sentido con la nueva dirección.
+
+No rescatar:
+
+* vídeo
+* lógica de carga de vídeo
+* frames de vídeo
+* canvas relacionado con vídeo
+* código que perjudique rendimiento
+* dependencias innecesarias
+* animaciones demasiado pesadas
+
+Si hay contenido aprovechable, intégralo como una nueva capa o bloque dentro del flujo actual.
+
+## Arquitectura recomendada
+
+Si la animación empieza a crecer, no quiero que `HeroSection` se vuelva inmanejable.
+
+Propón o crea una separación limpia:
+
+```txt
+components/
+  home/
+    HeroSection.jsx
+    HeroScrollMotion.jsx
+    ProductMotionLayer.jsx
+    ScrollFinalContent.jsx
+```
+
+O adapta los nombres a la estructura actual.
+
+La idea es separar:
+
+* layout estático
+* capa de productos
+* lógica de animación
+* contenido final rescatado
+
+## Responsive
+
+La animación debe funcionar bien en desktop, tablet y mobile.
+
+En desktop:
+
+* movimiento completo de derecha a centro
+* parallax sutil permitido
+* productos con presencia visual fuerte
+
+En tablet:
+
+* reducir desplazamiento horizontal
+* mantener fluidez
+* evitar que el producto tape textos importantes
+
+En mobile:
+
+* simplificar animación
+* menor desplazamiento
+* quizá solo `y`, `opacity` o escala sutil si el movimiento lateral rompe el layout
+* evitar pinned sections
+* respetar rendimiento
+
+Usa `matchMedia` de GSAP si tiene sentido:
+
+```js
+ScrollTrigger.matchMedia({
+  "(min-width: 1024px)": function () {
+    // animación desktop
+  },
+  "(min-width: 768px) and (max-width: 1023px)": function () {
+    // animación tablet
+  },
+  "(max-width: 767px)": function () {
+    // animación mobile simplificada
+  },
+});
+```
+
+Adáptalo al stack real y a la versión actual de GSAP.
+
+## prefers-reduced-motion
+
+Debe respetarse `prefers-reduced-motion`.
+
+Si el usuario tiene reducción de movimiento activada:
+
+* no usar animaciones de scroll complejas
+* dejar el producto en posición final o en una posición estable
+* evitar transformaciones continuas
+
+## Performance
+
+Prioriza rendimiento.
+
+Requisitos:
+
+* no cargar assets innecesarios
+* no reintroducir vídeo
+* no usar blur pesado en scroll
+* no animar propiedades que fuercen layout
+* animar principalmente `transform` y `opacity`
+* evitar `top`, `left`, `width`, `height` animados
+* limpiar ScrollTriggers al desmontar
+* evitar duplicados al hacer hot reload
+* comprobar que no quedan listeners antiguos
+
+## Resultado esperado de esta fase
+
+Al terminar, quiero tener:
+
+1. Hero actual conservado.
+2. Animación de scroll con producto moviéndose de derecha a centro.
+3. Movimiento natural y premium.
+4. Sombras/texturas acompañando de forma sutil si existen.
+5. Elementos finales útiles del antiguo ScrollTrigger rescatados.
+6. Código antiguo de vídeo eliminado o aislado sin uso.
+7. Responsive correcto.
+8. Soporte para `prefers-reduced-motion`.
+9. Código limpio, modular y mantenible.
+
+## Forma de trabajar
+
+Primero responde con un análisis técnico:
+
+1. Archivos actuales implicados.
+2. Código antiguo de ScrollTrigger detectado.
+3. Elementos finales que se pueden rescatar.
+4. Propuesta de arquitectura.
+5. Plan de implementación.
+
+Después, cuando confirme, implementa la animación por fases.
+
+No quiero que hagas una reescritura masiva de la home sin avisar.
+No quiero que recuperes el vídeo.
+No quiero que construyas todavía todas las secciones futuras.

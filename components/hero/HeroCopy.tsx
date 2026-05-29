@@ -3,13 +3,19 @@ import { cn } from "@/lib/cn";
 
 /**
  * Left-aligned hero copy: brand name, subtitle and CTAs.
- * Animation is orchestrated by the parent HeroHydra.
+ * Used by HeroSection. Pass `headingId` to wire the section's aria-labelledby.
  *
  * Typography: h1 is `w-fit` so "COBO" sets the reference width.
  * "NANI" and "secrets" use flex justify-between so their last
  * character aligns exactly with the last character of "COBO".
  */
-export default function HeroCopy({ className }: { className?: string }) {
+export default function HeroCopy({
+  className,
+  headingId,
+}: {
+  className?: string;
+  headingId?: string;
+}) {
   return (
     <div className={cn("max-w-xl", className)}>
       <p className="mb-5 text-xs font-medium uppercase tracking-[0.45em] text-gold">
@@ -19,6 +25,7 @@ export default function HeroCopy({ className }: { className?: string }) {
       {/* w-fit: width determined by COBO's natural render.
           NANI and secrets flex-expand to match that exact width. */}
       <h1
+        id={headingId}
         className="w-fit font-serif font-light text-ink"
         style={{ fontSize: "clamp(3rem,10vw,8.5rem)", lineHeight: 0.9 }}
       >

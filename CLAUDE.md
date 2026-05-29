@@ -1,621 +1,280 @@
-# NaniCobo Secrets — AI Context Master File
+# CLAUDE.md — NaniCobo Secrets
 
-## 1. Marca
+## 1. Project Context
 
-### Nombre
+NaniCobo Secrets is a premium haircare / salon brand. The website must be built as a high-end ecommerce and brand experience, with strong focus on performance, responsive design, clean frontend architecture and future Shopify integration.
 
-NaniCobo Secrets
+The current priority is the homepage rebuild.
 
-### Descripción de Marca
+The previous direction based on using a heavy video as the main homepage visual is now deprecated. Do not continue developing the video-first approach unless explicitly requested later.
 
-NaniCobo Secrets es una marca premium de peluquería y cuidado capilar creada alrededor de la experiencia profesional de Nani Cobo.
+The new official direction is based on:
 
-La marca combina:
+- Real product assets.
+- Responsive product images by device.
+- Optimized WebP assets.
+- Layered visual composition.
+- Static / lightweight background assets.
+- Subtle GSAP animations.
+- ScrollTrigger only where technically justified.
+- Performance-first implementation.
+- Mobile-first responsive behavior.
+- Shopify-compatible architecture.
 
-- Peluquería profesional especializada.
-- Productos capilares de alta calidad.
-- Tratamientos orientados a la hidratación, reparación y protección del cabello.
-- Enfoque fuerte en cabello curly / rizado, aunque los productos están diseñados para todo tipo de cabello.
+## 2. Current Technical Direction
 
-La marca transmite:
+The frontend should be built as a custom/headless-style experience compatible with a future Shopify backend.
 
-- Elegancia moderna.
-- Feminidad sofisticada.
-- Cuidado profesional.
-- Resultados visibles.
-- Sensación de lujo accesible.
-- Belleza natural.
-- Confianza y transformación.
+Shopify will eventually manage:
 
----
-
-# 2. Identidad Visual
-
-## Estética General
-
-La estética observada en los productos y materiales visuales es:
+- Products.
+- Checkout.
+- Orders.
+- Payments.
+- Inventory.
 
-- Premium.
-- Limpia.
-- Minimalista.
-- Moderna.
-- Elegante.
-- Beauty luxury.
-- Soft luxury.
-- Wellness beauty.
-
-## Sensaciones que debe transmitir
-
-- Cabello sano.
-- Hidratación profunda.
-- Brillo natural.
-- Suavidad.
-- Movimiento.
-- Resultado profesional.
-- Rutina de cuidado de alto nivel.
-- Exclusividad.
-- Feminidad moderna.
-
-## Paleta Visual Recomendada
-
-Basado en los productos y materiales:
-
-- Blanco limpio.
-- Beige suave.
-- Nude.
-- Dorado suave.
-- Marrones cálidos.
-- Negro elegante.
-- Tonos crema.
-- Rosados neutros.
-
-## Estilo Fotográfico
-
-- Luz suave y natural.
-- Fondos limpios.
-- Productos bien iluminados.
-- Sensación editorial beauty.
-- Detalles del cabello brillando.
-- Texturas visibles.
-- Planos premium tipo cosmética de lujo.
-- Movimiento natural del cabello.
-- Ambientes elegantes y minimalistas.
+The frontend should maintain visual freedom and premium UX while remaining ready to connect to Shopify through an appropriate approach such as:
 
-## Estilo de Video
+- Shopify Storefront API.
+- Hydrogen if the project moves into Shopify-native React architecture.
+- A React / Next / Vite frontend consuming Shopify data, depending on the final stack decision.
 
-- Cinemático.
-- Slow motion.
-- Enfoque en textura del cabello.
-- Movimiento fluido.
-- Aplicación del producto.
-- Close-ups premium.
-- Transiciones suaves.
-- Sonido visual relajante.
-- Sensación aspiracional.
+For now, do not hardcode the architecture into Shopify too early unless requested. Keep components modular and data-ready.
 
----
+## 3. New Homepage Direction
 
-# 3. Voz de Marca
+The homepage must no longer depend on a full-screen hero video.
 
-## Tono
+Replace the previous video-first concept with a product-image-first concept using optimized assets.
 
-La comunicación debe ser:
+Available assets include:
 
-- Cercana.
-- Profesional.
-- Elegante.
-- Inspiradora.
-- Segura.
-- Sofisticada.
-- Emocional pero premium.
-- Femenina sin exagerar.
-- Moderna.
+### Product assets
 
-## Nunca usar
+Leave-In:
 
-- Lenguaje demasiado agresivo de ventas.
-- Estilo barato.
-- Exceso de emojis.
-- Lenguaje demasiado técnico.
-- Claims médicos.
-- Estilo adolescente.
-- Exceso de hype artificial.
+- Mobile version.
+- Tablet version.
+- Desktop version.
 
-## Tipo de Copy Ideal
+Rinse:
 
-- Beauty luxury.
-- Storytelling elegante.
-- Beneficios claros.
-- Transformación visible.
-- Sensaciones.
-- Autocuidado.
-- Resultado profesional en casa.
+- Mobile version.
+- Tablet version.
+- Desktop version.
 
----
+### Background assets
 
-# 4. Propuesta de Valor
+- `soft-beige-gradient.webp`
+- `salon-texture.webp`
 
-## Problemas que resuelve
+These assets should be organized in a clean, scalable folder structure.
 
-- Cabello seco.
-- Cabello dañado.
-- Encrespamiento.
-- Falta de brillo.
-- Dificultad para desenredar.
-- Pérdida de hidratación.
-- Falta de definición en rizos.
-- Cabello sin vida.
+Recommended structure:
 
-## Beneficios principales
+```txt
+src/
+  assets/
+    images/
+      home/
+        products/
+          leave-in/
+            leave-in-mobile.webp
+            leave-in-tablet.webp
+            leave-in-desktop.webp
+          rinse/
+            rinse-mobile.webp
+            rinse-tablet.webp
+            rinse-desktop.webp
+        backgrounds/
+          soft-beige-gradient.webp
+          salon-texture.webp
+        textures/
+        shadows/
+```
 
-- Hidratación profunda.
-- Reparación de la fibra capilar.
-- Protección.
-- Brillo natural.
-- Suavidad.
-- Cabello más manejable.
-- Menos frizz.
-- Resultado profesional.
-- Cabello más fuerte.
+Adapt the naming to the real filenames in the project, but keep the structure clear.
 
-## Transformación emocional
+## 4. Homepage Component Architecture
 
-La clienta debe sentir:
+Do not build the entire homepage in a single file.
 
-- Seguridad.
-- Belleza.
-- Confianza.
-- Sensación premium.
-- Cuidado profesional.
-- Amor propio.
-- Feminidad.
-- Relajación.
+Recommended component structure:
+
+```txt
+src/
+  components/
+    home/
+      HeroSection.jsx / .tsx
+      ProductShowcase.jsx / .tsx
+      RitualSection.jsx / .tsx
+      BenefitsSection.jsx / .tsx
+      SalonExperienceSection.jsx / .tsx
+      FinalCTA.jsx / .tsx
+    ui/
+      Button.jsx / .tsx
+      ResponsiveProductImage.jsx / .tsx
+      SectionContainer.jsx / .tsx
+      SectionHeading.jsx / .tsx
+```
+
+Start only with the `HeroSection` unless instructed otherwise.
+
+## 5. Current Implementation Priority
+
+The first development phase must focus on:
+
+1. Inspecting the current project structure.
+2. Identifying existing homepage files and video-related code.
+3. Removing or disabling the old video-first implementation.
+4. Organizing the new image assets.
+5. Creating a static responsive `HeroSection`.
+6. Using correct mobile / tablet / desktop product assets.
+7. Applying the `soft-beige-gradient.webp` background.
+8. Testing whether `salon-texture.webp` adds value as a subtle overlay.
+9. Ensuring the layout is stable before adding animations.
+10. Adding GSAP only after the static version is approved.
+
+Do not implement the full homepage at once.
+
+## 6. Responsive Image Rules
+
+The homepage must not load oversized desktop product images on mobile.
+
+Use the most appropriate strategy depending on the actual stack:
+
+- `<picture>` and `<source>` tags for standard HTML / React.
+- Framework image components if available.
+- CSS media queries only when technically justified.
+- Clean imports and explicit asset mapping if using React.
+
+Expected behavior:
+
+- Mobile viewport loads mobile asset.
+- Tablet viewport loads tablet asset.
+- Desktop viewport loads desktop asset.
+- No layout shift.
+- No image distortion.
+- Explicit width / height or aspect-ratio handling where possible.
+- Hero image should be prioritized carefully if it is above the fold.
+
+## 7. GSAP Rules
+
+Do not add GSAP until the static hero is visually and responsively correct.
+
+When GSAP is added:
+
+- Keep animations subtle.
+- Avoid excessive timelines.
+- Avoid scroll-jacking.
+- Avoid heavy transforms on large images in mobile.
+- Respect `prefers-reduced-motion`.
+- Clean up animations on component unmount.
+- Use `gsap.context()` in React if applicable.
+- Use ScrollTrigger only where scroll-based animation has a clear purpose.
+
+Acceptable animation patterns:
+
+- Initial opacity fade.
+- Slight `y` movement.
+- Slight scale from `0.96` to `1`.
+- Very soft product floating movement.
+- Very light parallax on background layers.
+
+Avoid:
+
+- Fast motion.
+- Excessive blur.
+- Complex pinned sections in the first phase.
+- Large scroll-controlled video behavior.
+- Animations that harm Core Web Vitals.
+
+## 8. Performance Requirements
+
+Prioritize:
+
+- Lightweight first load.
+- Optimized images.
+- Stable layout.
+- Minimal JavaScript.
+- Lazy loading for below-the-fold assets.
+- No unnecessary animation libraries beyond GSAP if already chosen.
+- Avoid large video files in the hero.
+- Avoid unused imports.
+- Avoid loading every product version at once if preventable.
+- Use preload only for the critical above-the-fold hero asset if justified.
+
+Core principles:
 
----
-
-# 5. Productos
-
-## Rinse
-
-### Descripción
-
-Tratamiento orientado a reconstruir, hidratar y proteger el cabello.
-
-### Beneficios
-
-- Repara daños.
-- Hidrata intensamente.
-- Protege contra agresiones externas.
-- Fortalece el cabello.
-- Aporta brillo.
-- Facilita el desenredado.
-- Reduce nudos.
-- Mejora la suavidad.
-
-### Copy base
-
-"Reconstruye, hidrata y protege."
-
-### Sensación objetivo
-
-Cabello sano, fuerte, suave y brillante.
-
----
-
-## Leave-In
-
-### Descripción
-
-Producto leave-in ligero y de rápida absorción.
-
-### Beneficios
-
-- Nutre.
-- Desenreda.
-- Protege.
-- Reduce frizz.
-- Hidrata.
-- Aporta brillo.
-- Mejora manejabilidad.
-- No necesita enjuague.
-
-### Copy base
-
-"Tu imprescindible para un cabello impecable."
-
-### Sensación objetivo
-
-Rutina rápida, fácil y efectiva.
-
----
-
-# 6. Mensajes Principales
-
-## Mensaje central
-
-"Descubre el secreto detrás de un cabello brillante y lleno de vida con los productos de NaniCobo Secrets."
-
-## Mensajes secundarios
-
-- Hidratación transformadora.
-- Brillo irresistible.
-- Fórmulas innovadoras.
-- Resultados visibles.
-- Cabello sano y fuerte.
-- Beauty care premium.
-- Ritual profesional en casa.
-
----
-
-# 7. Público Objetivo
-
-## Perfil principal
-
-Mujeres interesadas en:
-
-- Cuidado capilar premium.
-- Belleza.
-- Cabello saludable.
-- Productos profesionales.
-- Rutinas de autocuidado.
-- Haircare de calidad.
-- Pelo curly/rizado.
-- Resultados reales.
-
-## Edad aproximada
-
-25-45 años.
-
-## Psicología
-
-- Busca verse bien.
-- Valora productos premium.
-- Quiere resultados visibles.
-- Consume contenido beauty.
-- Valora estética y branding.
-- Le importa la experiencia.
-- Busca confianza y sofisticación.
-
----
-
-# 8. Posicionamiento
-
-## La marca NO es
-
-- Low-cost.
-- Fast beauty.
-- Genérica.
-- Masiva.
-- Juvenil extrema.
-
-## La marca SÍ es
-
-- Premium.
-- Especializada.
-- Profesional.
-- Elegante.
-- Aspiracional.
-- Moderna.
-- Beauty luxury.
-- Hair wellness.
-
----
-
-# 9. Instrucciones para ChatGPT
-
-## Rol de ChatGPT
-
-ChatGPT se utilizará para:
-
-- Guiones.
-- Estrategia.
-- Planificación.
-- Storytelling.
-- Calendarios de contenido.
-- Estructuras de campañas.
-- Naming.
-- Hooks.
-- CTA.
-- Desarrollo de ideas.
-- Copies.
-- Arquitectura de funnels.
-- Desarrollo de branding verbal.
-
-## Estilo de Respuesta
-
-- Estructurado.
-- Estratégico.
-- Claro.
-- Premium.
-- Creativo.
-- Orientado a conversión.
-- Orientado a branding.
-
-## Prioridades
-
-1. Branding premium.
-2. Claridad visual.
-3. Conversión elegante.
-4. Emoción.
-5. Storytelling.
-6. Resultados visibles.
-
-## Formato Ideal
-
-- Títulos claros.
-- Bloques organizados.
-- Ideas accionables.
-- Hooks directos.
-- CTA elegantes.
-- Lenguaje moderno.
-
----
-
-# 10. Instrucciones para Gemini
-
-## Rol de Gemini
-
-Gemini se utilizará para:
-
-- Generación de imágenes.
-- Generación de vídeos.
-- Storyboards.
-- Mockups.
-- Visuales de campañas.
-- Contenido social.
-- Product shots.
-- Escenas beauty.
-
-## Dirección Artística
-
-Gemini debe generar contenido visual:
-
-### Estilo visual
-
-- Luxury beauty.
-- Minimal beauty.
-- Clean aesthetic.
-- Premium cosmetic branding.
-- Editorial beauty.
-- Soft luxury.
-- Haircare commercial.
-
-### Características visuales
-
-- Cabello brillante.
-- Movimiento natural.
-- Luz suave.
-- Fondos minimalistas.
-- Detalles premium.
-- Texturas visibles.
-- Productos bien iluminados.
-- Sensación cinematográfica.
-
-### Evitar
-
-- Estética barata.
-- Saturación excesiva.
-- Fondos caóticos.
-- Visuales demasiado artificiales.
-- Estilo low-cost.
-- Exceso de elementos.
-
-## Keywords visuales recomendadas
-
-- luxury haircare
-- glossy hair
-- premium beauty
-- soft lighting
-- cinematic beauty
-- editorial hair campaign
-- luxury cosmetic photography
-- hydrated curls
-- elegant beauty commercial
-- premium salon branding
-
----
-
-# 11. Instrucciones para Claude
-
-## Rol de Claude
-
-Claude será utilizado para:
-
-- Desarrollo web.
-- Programación.
-- Shopify.
-- Landing pages.
-- Componentes.
-- Arquitectura frontend.
-- SEO técnico.
-- Optimización UX.
-- Estructura responsive.
-- Integraciones.
-- Automatizaciones.
-
-## Dirección técnica
-
-Claude debe priorizar:
-
-- Diseño premium.
-- Clean UI.
-- Performance.
-- Responsive first.
 - Mobile-first.
-- Conversión.
-- Elegancia visual.
-- Animaciones suaves.
-- Experiencia premium.
+- Performance-first.
+- Premium feel through composition, not heavy media.
 
-## Estilo visual web
+## 9. Accessibility Requirements
 
-- Mucho espacio en blanco.
-- Tipografía elegante.
-- Hero sections visuales.
-- Motion sutil.
-- Diseño moderno.
-- Componentes minimalistas.
-- UX de marca premium.
+Every image must have appropriate alt text.
 
-## Referencias visuales recomendadas
+Product images should include descriptive alt text, for example:
 
-Inspiración tipo:
+- `Leave-In de NaniCobo Secrets`
+- `Rinse de NaniCobo Secrets`
 
-- marcas luxury skincare
-- premium beauty brands
-- modern cosmetic ecommerce
-- editorial ecommerce
-- luxury salon branding
+The hero must preserve:
 
-## Requisitos técnicos
+- Correct heading hierarchy.
+- Accessible buttons / links.
+- Sufficient contrast.
+- Keyboard navigability.
+- Reduced motion support.
 
-- Código limpio.
-- Componentes reutilizables.
-- SEO optimizado.
-- Accesibilidad.
-- Velocidad.
-- Diseño responsive.
-- Shopify compatible.
-- Modularidad.
+## 10. SEO Requirements
 
----
+Keep SEO basics clean:
 
-# 12. Estilo de Contenido para Redes
+- One clear `h1` on the homepage.
+- Semantic sections.
+- Proper image alt text.
+- Avoid text embedded only in images.
+- Avoid CLS from media loading.
+- Keep metadata easy to update later.
 
-## Tipos de contenido
+## 11. Development Workflow For Claude
 
-- Antes y después.
-- Transformaciones.
-- Rutinas.
-- Tutoriales.
-- Aplicación de productos.
-- Resultados reales.
-- Lifestyle beauty.
-- Haircare education.
-- UGC premium.
-- Videos slow motion.
+When asked to implement this homepage direction, Claude should first respond with a technical plan, not immediate broad changes.
 
-## Hooks recomendados
+Claude should inspect and report:
 
-- “El secreto para un cabello brillante…”
-- “Tu cabello merece esto…”
-- “Hidratación que se nota desde la primera aplicación.”
-- “Despídete del frizz.”
-- “Cabello sano, brillante y lleno de vida.”
+1. Current project stack.
+2. Existing homepage entry file.
+3. Existing asset folders.
+4. Existing video implementation to remove or replace.
+5. Recommended final asset paths.
+6. Components to create or modify.
+7. Exact files that will be edited.
+8. Step-by-step implementation order.
 
-## CTA
+After confirmation, Claude should implement only the approved phase.
 
-- Descubre la colección.
-- Transforma tu rutina.
-- Dale vida a tu cabello.
-- Experimenta el cuidado premium.
-- Descubre el secreto de NaniCobo.
+## 12. Deprecated Direction
 
----
+The following approach is deprecated:
 
-# 13. Objetivo General de Marca
+- Full-screen video hero.
+- Scroll-driven heavy video.
+- Video as the main homepage experience.
+- Large video files driving the core visual identity.
 
-Construir una marca de haircare premium con identidad elegante, aspiracional y profesional, capaz de posicionarse como referencia en hidratación, brillo y cuidado capilar especializado.
+Do not continue this route unless explicitly requested later.
 
-La experiencia de marca debe sentirse:
+## 13. Current Immediate Task
 
-- Premium.
-- Visualmente impecable.
-- Emocional.
-- Moderna.
-- Confiable.
-- Profesional.
-- Aspiracional.
+The immediate task is to start the new homepage route by creating a static, responsive, product-image-based `HeroSection` using the new assets.
 
----
+Expected first deliverable:
 
-# 14. Prompt Maestro Universal
-
-Usar este contexto para cualquier tarea relacionada con:
-
-- Branding.
-- Marketing.
-- Contenido.
-- Diseño.
-- Web.
-- Visuales.
-- Campañas.
-- Copywriting.
-- Social media.
-- Ecommerce.
-- Estrategia.
-
-Siempre mantener:
-
-- Estética premium.
-- Comunicación elegante.
-- Sensación luxury beauty.
-- Branding consistente.
-- Enfoque en transformación del cabello.
-- Resultados visibles.
-- Hidratación y brillo.
-- Experiencia profesional.
-
-# 15. Motion & Scroll System
-
-## Website Experience Goal
-
-The website should feel cinematic, immersive and premium.
-
-The scroll experience must resemble modern Apple product pages,
-luxury beauty campaigns and high-end editorial ecommerce experiences.
-
-## Motion Direction
-
-- Smooth scrolling.
-- Cinematic transitions.
-- Layered parallax.
-- Scroll-driven storytelling.
-- Product-focused reveals.
-- Elegant motion.
-- Soft inertia.
-- Minimal but impactful animations.
-
-## Animation Priorities
-
-1. Performance first.
-2. Smoothness.
-3. Elegant transitions.
-4. Premium feeling.
-5. Minimal UI clutter.
-6. Visual storytelling.
-
-## Technical Motion Stack
-
-- GSAP
-- ScrollTrigger
-- Lenis smooth scroll
-- Next.js App Router
-- Tailwind CSS
-
-## Animation Rules
-
-- Avoid excessive motion.
-- Avoid generic fade-only animations.
-- Use cinematic scaling and movement.
-- Prioritize scroll-linked experiences.
-- Use pinned sections strategically.
-- Create immersive transitions between sections.
-
-## Performance Rules
-
-- Prefer transform animations.
-- Avoid layout thrashing.
-- Optimize videos and assets.
-- Lazy load heavy media.
-- Keep animations GPU-friendly.
-
-## Visual References
-
-Inspired by:
-
-- Apple
-- Aesop
-- Arc Browser
-- Luxury beauty ecommerce
-- Editorial cosmetic campaigns
+- Clean asset organization.
+- Static hero.
+- Responsive product image handling.
+- Background gradient.
+- Optional subtle texture overlay.
+- No GSAP yet unless approved after the static result.
